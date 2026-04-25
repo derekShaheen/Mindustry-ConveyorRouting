@@ -115,7 +115,7 @@ public class ConveyorRouterMod extends Mod {
      */
     private static Block guessBridge(Block conveyor) {
         // Standard vanilla mappings.
-        if (conveyor == Blocks.conveyor)          return Blocks.bridgeConveyor;
+        if (conveyor == Blocks.conveyor)          return Blocks.itemBridge;
         if (conveyor == Blocks.titaniumConveyor)   return Blocks.phaseConveyor;
         if (conveyor == Blocks.plastaniumConveyor) return Blocks.phaseConveyor;
         if (conveyor == Blocks.armoredConveyor)    return Blocks.phaseConveyor;
