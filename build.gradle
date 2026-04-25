@@ -21,23 +21,16 @@ repositories{
         metadataSources{ artifact() }
     }
 
-    // Jabel for Java-8-bytecode output from Java-17 source.
-    ivy{
-        url 'https://github.com/'
-        patternLayout{ artifact '/[organisation]/[module]/releases/download/[revision]/jabel.jar' }
-        metadataSources{ artifact() }
-    }
 }
 
 java{
     targetCompatibility = 8
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = 8
 }
 
 ext{
     // Target Mindustry v157+. Change this if you need a different version.
     mindustryVersion = 'v157'
-    jabelVersion = "93fde537c7"
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
 }
@@ -54,7 +47,6 @@ allprojects{
 dependencies{
     def useLatest = false
     compileOnly useLatest ? "Anuken:MindustryBuilds:latest" : "Anuken:Mindustry:$mindustryVersion"
-    annotationProcessor "Anuken:jabel:v1.0.0"
 }
 
 // --- Android jar (optional — requires ANDROID_HOME) ---
