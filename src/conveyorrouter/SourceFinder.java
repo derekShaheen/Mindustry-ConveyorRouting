@@ -1,6 +1,7 @@
 package conveyorrouter;
 
 import arc.struct.*;
+import java.util.HashSet;
 import mindustry.*;
 import mindustry.content.Blocks;
 import mindustry.world.*;
@@ -26,7 +27,7 @@ public class SourceFinder {
     public static SourceResult findNearest(Tile origin, int maxRadius) {
         if (origin == null) return null;
 
-        ObjectSet<Long> visited = new ObjectSet<>();
+        HashSet<Long> visited = new HashSet<>();
         Queue<int[]> queue = new Queue<>();
 
         int ox = origin.x, oy = origin.y;

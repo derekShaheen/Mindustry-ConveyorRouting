@@ -1,6 +1,7 @@
 package conveyorrouter;
 
 import arc.struct.*;
+import java.util.HashMap;
 import mindustry.*;
 import mindustry.content.Blocks;
 import mindustry.world.*;
@@ -74,7 +75,7 @@ public class ConveyorPathfinder {
 
         // Priority queue (min-heap on f).
         java.util.PriorityQueue<Node> open = new java.util.PriorityQueue<>();
-        ObjectMap<Long, Float> bestG = new ObjectMap<>();
+        HashMap<Long, Float> bestG = new HashMap<>();
 
         Node startNode = new Node(sx, sy, 0f, heuristic(sx, sy, dx, dy), -1, null, false);
         open.add(startNode);
@@ -136,7 +137,7 @@ public class ConveyorPathfinder {
      */
     private static void tryBridge(Node cur, int dir, Block conveyorBlock, Block bridgeBlock,
                                   int dx, int dy,
-                                  java.util.PriorityQueue<Node> open, ObjectMap<Long, Float> bestG) {
+                                  java.util.PriorityQueue<Node> open, HashMap<Long, Float> bestG) {
         for (int span = 1; span <= MAX_BRIDGE_SPAN; span++) {
             int lx = cur.x + DX[dir] * (span + 1);
             int ly = cur.y + DY[dir] * (span + 1);
