@@ -3,6 +3,7 @@ package conveyoroptimizer.graph;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.storage.Unloader;
 
 /**
  * Classifies a Mindustry block into its logistics role.
