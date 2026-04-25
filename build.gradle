@@ -7,20 +7,17 @@ sourceSets.main.java.srcDirs = ["src"]
 repositories{
     mavenCentral()
 
-    // Pull the dependencies jar from Mindustry GitHub releases.
     ivy{
         url 'https://github.com/'
         patternLayout{ artifact '/[organisation]/[module]/releases/download/[revision]/dependencies.jar' }
         metadataSources{ artifact() }
     }
 
-    // "Latest" option — BE builds.
     ivy{
         url 'https://github.com/'
         patternLayout{ artifact '/[organisation]/[module]/releases/download/master/[revision].jar' }
         metadataSources{ artifact() }
     }
-
 }
 
 java{
@@ -29,13 +26,11 @@ java{
 }
 
 ext{
-    // Target Mindustry v157+. Change this if you need a different version.
     mindustryVersion = 'v157'
     isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
 }
 
-// Java-8 backwards-compatibility flag.
 allprojects{
     tasks.withType(JavaCompile).tap{
         configureEach{
@@ -45,25 +40,9 @@ allprojects{
 }
 
 dependencies{
-    def useLatest = false
-    compileOnly useLatest ? "Anuken:MindustryBuilds:latest" : "Anuken:Mindustry:$mindustryVersion"
+    compileOnly "Anuken:Mindustry:$mindustryVersion"
 }
 
-// --- Android jar (optional — requires ANDROID_HOME) ---
-tasks.register('jarAndroid'){
-    dependsOn "jar"
-    doLast{
-        if(!sdkRoot || !new File(sdkRoot).exists()) throw new GradleException("No valid Android SDK found. Ensure that ANDROID_HOME is set to your Android SDK directory.")
-        def platformRoot = new File("$sdkRoot/platforms/").listFiles().sort().reverse().find{ f -> new File(f, "android.jar").exists() }
-        if(!platformRoot) throw new GradleException("No android.jar found. Ensure that you have an Android platform installed.")
-        def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect{ "--classpath $it.path" }.join(" ")
-        def d8 = isWindows ? "d8.bat" : "d8"
-        "$d8 $dependencies --min-api 14 --output ${project.name}Android.jar ${project.name}Desktop.jar"
-            .execute(null, new File("build/libs")).waitForProcessOutput(System.out, System.err)
-    }
-}
-
-// Desktop-only jar — sufficient for testing on PC.
 jar{
     archiveFileName = "${project.name}Desktop.jar"
     from{
@@ -74,18 +53,5 @@ jar{
     }
     from("assets/"){
         include "**"
-    }
-}
-
-// Full cross-platform deploy (desktop + android).
-tasks.register('deploy', Jar){
-    dependsOn jarAndroid
-    dependsOn jar
-    archiveFileName = "${project.name}.jar"
-    from{ [zipTree("build/libs/${project.name}Desktop.jar"), zipTree("build/libs/${project.name}Android.jar")] }
-    doLast{
-        delete{
-            delete "build/libs/${project.name}Android.jar"
-        }
     }
 }

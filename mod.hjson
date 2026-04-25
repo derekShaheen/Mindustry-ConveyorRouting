@@ -1,9 +1,8 @@
-# Conveyor Router — auto-pathfind conveyor placement
-name: conveyor-router
-displayName: "Conveyor Router"
-author: Derek
-main: conveyorrouter.ConveyorRouterMod
-description: "Press C to enter conveyor-connect mode, click a destination tile, and the mod A* pathfinds a conveyor route from the nearest unconnected conveyor. Supports bridge conveyors for short blocked gaps."
+name: conveyor-optimizer
+displayName: "Conveyor Optimizer"
+author: ConvOpt
+main: conveyoroptimizer.ConveyorOptimizerMod
+description: "Select an area and optimize conveyor layouts while preserving logistics behavior."
 version: "1.0.0"
 minGameVersion: "154"
 java: true
